@@ -12,16 +12,15 @@ public class Manager {
      *        -2 if the path is invalid
      */
 
-    // prevent failure or fail fast
+    // Q4: prevent failure or fail fast
     // should checkPathValid first before checkDirectoryExists
-    public int newDirectory(String path) {
+    public void newDirectory(String path) {
         if (!dirOps.checkPathValid(path)) {
-            return -2;
+            throw new IllegalArgumentException("Invalid path: " + path);
         } else if (dirOps.checkDirectoryExists(path)) {
-            return -1;
+            throw new IllegalStateException("Directory already exists at: " + path);
         } else {
             dirOps.createDirectory(path);
-            return 0;
         }
     }
 }

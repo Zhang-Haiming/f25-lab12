@@ -12,10 +12,21 @@ public class LibraryAccount {
      * @param userId the ID of the user whose books are to be retrieved
      * @return an array of Book objects the user has checked out
      */
+
+    // violate Q3: Make it easy for user to do what is preferable
+    // violate Q4: Prevent failure
+    // name and id are swapped
+    // should check userID format first
     public Book[] getBooks(String userId) {
+        if(userId == null || !userId.contains(":")) {
+            throw new IllegalArgumentException("Invalid userId format");
+        }
         String[] parts = userId.split(":");
-        String name = parts[0];
-        String id = parts[1];
+        if(parts.length != 2) {
+            throw new IllegalArgumentException("Invalid userId format");
+        }
+        String name = parts[1];
+        String id = parts[0];
         return libraryService.getBooks(name, id);        
     }
 }

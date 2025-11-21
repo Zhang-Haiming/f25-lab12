@@ -11,11 +11,14 @@ public class Manager {
      *        -1 if the directory already exists,
      *        -2 if the path is invalid
      */
+
+    // prevent failure or fail fast
+    // should checkPathValid first before checkDirectoryExists
     public int newDirectory(String path) {
-        if (dirOps.checkDirectoryExists(path)) {
-            return -1;
-        } else if (!dirOps.checkPathValid(path)) {
+        if (!dirOps.checkPathValid(path)) {
             return -2;
+        } else if (dirOps.checkDirectoryExists(path)) {
+            return -1;
         } else {
             dirOps.createDirectory(path);
             return 0;

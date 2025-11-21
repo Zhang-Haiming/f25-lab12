@@ -2,15 +2,26 @@ package edu.cmu.Weather;
 
 public class Weather {
     private WeatherService weatherService;
-    private boolean inches;
+    private Scale unit=Scale.millimeters;
 
+    public enum Scale {
+        inches,
+        millimeters
+    }
     /**
      * Sets the length scale for rainfall.
      *
      * @param inches if true, sets the scale to inches; if false, sets the scale to millimeters.
      */
-    public void setLengthScale(boolean inches) {
-        this.inches = inches;
+
+    // violate U5: An API must be appropriate to its audience
+    // violate U6: APIs should be approachable
+    // method is ambiguous in using: what kind of scale does setLengthScale(true) mean?
+    public void setLengthScale(Scale unit) {
+        if(unit == null){
+            throw new IllegalArgumentException("Scale cannot be null");
+        }
+        this.unit = unit;
     }
 
     /**
@@ -21,7 +32,7 @@ public class Weather {
      */
     public double getRainfall() {
         double wsRainfall = weatherService.getRainfall();
-        if (inches) {
+        if (unit == Scale.inches) {
             return wsRainfall / 25.4;
         } else {
             return wsRainfall;
